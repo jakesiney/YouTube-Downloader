@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, escape
 from backend import download_video
 from backend import get_available_stream_qualities
 import io
@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        youtube_url = request.form['youtube_url']
+        youtube_url = escape(request.form['youtube_url'])
         success, stream_qualities, error_message = get_available_stream_qualities(
             youtube_url)
         if success:

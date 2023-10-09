@@ -5,7 +5,7 @@ def get_available_stream_qualities(youtube_url):
     try:
         video = YouTube(youtube_url)
         streams = video.streams.filter(
-            file_extension='mp4')  # Consider only mp4 streams
+            progressive=True)
         stream_qualities = [stream.resolution for stream in streams]
         return True, stream_qualities, None
     except Exception as e:
