@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+</head>
+<body>
+    <h1>YouTube Video Downloader</h1>
+
+    <form method="POST" action="/">
+        <label for="youtube_url">YouTube URL:</label>
+        <input type="text" id="youtube_url" name="youtube_url" required><br>
+
+        {% if stream_qualities %}
+            <label for="selected_quality">Select Stream Quality:</label>
+            <select id="selected_quality" name="selected_quality">
+                {% for quality in stream_qualities %}
+                    <option value="{{ quality }}">{{ quality }}</option>
+                {% endfor %}
+            </select><br>
+        {% endif %}
+
+        <input type="submit" value="Get Stream Qualities">
+    </form>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    {% if youtube_url and not error_message %}
+        <form method="POST" action="/download">
+            <input type="hidden" name="youtube_url" value="{{ youtube_url }}">
+            <input type="hidden" name="selected_quality" value="{{ request.form['selected_quality'] }}">
+            <input type="submit" value="Download Video">
+        </form>
+    {% endif %}
+</body>
+</html>
